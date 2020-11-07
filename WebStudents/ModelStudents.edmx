@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ModelStudents.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ModelStudentsStoreContainer">
+    <EntitySet Name="СтудентSet" EntityType="ModelStudents.Store.СтудентSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ПредметSet" EntityType="ModelStudents.Store.ПредметSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ПредмСтудSet" EntityType="ModelStudents.Store.ПредмСтудSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="СтудентПредмСтуд" Association="ModelStudents.Store.СтудентПредмСтуд">
+      <End Role="Студент" EntitySet="СтудентSet" />
+      <End Role="ПредмСтуд" EntitySet="ПредмСтудSet" />
+    </AssociationSet>
+    <AssociationSet Name="ПредметПредмСтуд" Association="ModelStudents.Store.ПредметПредмСтуд">
+      <End Role="Предмет" EntitySet="ПредметSet" />
+      <End Role="ПредмСтуд" EntitySet="ПредмСтудSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="СтудентSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ПредметSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ПредмСтудSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Студент_Id" Type="int" Nullable="false" />
+    <Property Name="Предмет_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="СтудентПредмСтуд">
+    <End Role="Студент" Type="ModelStudents.Store.СтудентSet" Multiplicity="1" />
+    <End Role="ПредмСтуд" Type="ModelStudents.Store.ПредмСтудSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Студент">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ПредмСтуд">
+        <PropertyRef Name="Студент_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ПредметПредмСтуд">
+    <End Role="Предмет" Type="ModelStudents.Store.ПредметSet" Multiplicity="1" />
+    <End Role="ПредмСтуд" Type="ModelStudents.Store.ПредмСтудSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Предмет">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ПредмСтуд">
+        <PropertyRef Name="Предмет_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ModelStudents" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="ModelStudentsContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="СтудентSet" EntityType="ModelStudents.Студент" />
+          <EntitySet Name="ПредметSet" EntityType="ModelStudents.Предмет" />
+          <EntitySet Name="ПредмСтудSet" EntityType="ModelStudents.ПредмСтуд" />
+          <AssociationSet Name="СтудентПредмСтуд" Association="ModelStudents.СтудентПредмСтуд">
+            <End Role="Студент" EntitySet="СтудентSet" />
+            <End Role="ПредмСтуд" EntitySet="ПредмСтудSet" />
+          </AssociationSet>
+          <AssociationSet Name="ПредметПредмСтуд" Association="ModelStudents.ПредметПредмСтуд">
+            <End Role="Предмет" EntitySet="ПредметSet" />
+            <End Role="ПредмСтуд" EntitySet="ПредмСтудSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Студент">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="ПредмСтуд" Relationship="ModelStudents.СтудентПредмСтуд" FromRole="Студент" ToRole="ПредмСтуд" />
+        </EntityType>
+        <EntityType Name="Предмет">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="ПредмСтуд" Relationship="ModelStudents.ПредметПредмСтуд" FromRole="Предмет" ToRole="ПредмСтуд" />
+        </EntityType>
+        <EntityType Name="ПредмСтуд">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Студент" Relationship="ModelStudents.СтудентПредмСтуд" FromRole="ПредмСтуд" ToRole="Студент" />
+          <NavigationProperty Name="Предмет" Relationship="ModelStudents.ПредметПредмСтуд" FromRole="ПредмСтуд" ToRole="Предмет" />
+        </EntityType>
+        <Association Name="СтудентПредмСтуд">
+          <End Type="ModelStudents.Студент" Role="Студент" Multiplicity="1" />
+          <End Type="ModelStudents.ПредмСтуд" Role="ПредмСтуд" Multiplicity="*" />
+        </Association>
+        <Association Name="ПредметПредмСтуд">
+          <End Type="ModelStudents.Предмет" Role="Предмет" Multiplicity="1" />
+          <End Type="ModelStudents.ПредмСтуд" Role="ПредмСтуд" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ModelStudentsStoreContainer" CdmEntityContainer="ModelStudentsContainer">
+    <EntitySetMapping Name="СтудентSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelStudents.Студент)">
+        <MappingFragment StoreEntitySet="СтудентSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ПредметSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelStudents.Предмет)">
+        <MappingFragment StoreEntitySet="ПредметSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ПредмСтудSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ModelStudents.ПредмСтуд)">
+        <MappingFragment StoreEntitySet="ПредмСтудSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="СтудентПредмСтуд" TypeName="ModelStudents.СтудентПредмСтуд" StoreEntitySet="ПредмСтудSet">
+      <EndProperty Name="Студент">
+        <ScalarProperty Name="Id" ColumnName="Студент_Id" />
+      </EndProperty>
+      <EndProperty Name="ПредмСтуд">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ПредметПредмСтуд" TypeName="ModelStudents.ПредметПредмСтуд" StoreEntitySet="ПредмСтудSet">
+      <EndProperty Name="Предмет">
+        <ScalarProperty Name="Id" ColumnName="Предмет_Id" />
+      </EndProperty>
+      <EndProperty Name="ПредмСтуд">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
